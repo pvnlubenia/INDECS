@@ -1,0 +1,76 @@
+=================================================
+
+  INDECS: INdependent DEComposition of networkS
+
+=================================================
+
+Matlab was used to develop the function used here.
+The function indep_decomp returns a nontrivial independent decomposition of a chemical reaction network (CRN), if it exists. If no such decomposition exists, a message appears saying so. Furthermore, the output variables 'model', 'R', 'G', and 'P' allows the user to  view the following, respectively:
+
+   - Complete network with all the species listed in the 'species' field of the structure 'model'
+   - Matrix of reaction vectors of the network
+   - Undirected graph of R
+   - Partitions representing the decomposition of the reactions
+
+
+
+=================================
+How to fill out 'model' structure
+=================================
+
+'model' is the input for the function indep_decomp. It is a structure, representing the CRN, with the following fields (the kinetics of the network is not needed):
+
+   - id: name of the model
+   - species: a list of all species in the network; this is left blank since incorporated into the function is a step which compiles all species used in the model
+   - reaction: a list of all reactions in the network, each with the following subfields:
+        - id: a string representing the reaction
+        - reactant: has the following further subfields:
+             - species: a list of strings representing the species in the reactant complex
+             - stoichiometry: a list of numbers representing the stoichiometric coefficient of each species in the reactant complex (listed in the same order of the species)
+        - product: has the following further subfields:
+             - species: a list of strings representing the species in the product complex
+             - stoichiometry: a list of numbers representing the stoichiometric coefficient of each species in the product complex (listed in the same order of the species)
+        - reversible: has the value true or false indicating if the reaction is reversible or not, respectively
+
+
+
+========
+Examples
+========
+
+7 examples are included in this folder, all based on [1]:
+
+   - Example 1: Generalized mass action model of anaerobic fermentation pathway of Saccharomyces cerevisiae
+
+   - Example 2: A metabolic network with one positive feedforward and a negative feedback
+
+   - Example 3: Baccam influenza virus model
+
+   - Example 4: Baccam influenza virus model with delayed virus production
+
+   - Example 5: Handel influenza virus model
+
+   - Example 6: Generalized mass action model of purine metabolism in man
+
+   - Example 7: A reaction network governed by mass action kinetics
+
+
+
+===================
+Contact Information
+===================
+
+For questions, comments, and suggestions, feel free to contact me at pvnlubenia@yahoo.co.uk.
+
+
+- Patrick Lubenia (2 June 2022)
+
+
+
+==========
+References
+==========
+
+   [1] Hernandez, B.S. and De la Cruz, R.J.L. (2021). Independent decompositions of chemical reaction networks. Bulletin of Mathematical Biology, 83(76), 1Ð23. doi:10.1007/s11538-021-00906-3
+
+   [2] Soranzo, N. and Altafini, C. (2009). ERNEST: a toolbox for chemical chemical reaction network theory. Bioinformatics, 25(21), 2853Ð2854. doi:10.1093/bioinformatics/btp513
