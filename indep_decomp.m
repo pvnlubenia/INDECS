@@ -149,7 +149,6 @@ function [model, R, G, P] = indep_decomp(model)
     %
     
     % Write R in reduced row echelon form: the transpose of R is used so 'basis_reaction_num' will give the pivot rows of R
-    %    - 'A' is R in reduced row echelon form
     %    - 'basis_reaction_num' gives the row numbers of R which form a basis for the rowspace of R
     [~, basis_reaction_num] = rref(R');
     
