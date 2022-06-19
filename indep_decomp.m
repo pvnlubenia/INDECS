@@ -40,15 +40,15 @@
 %                        the reaction is reversible or not, respectively      %
 %                                                                             %
 % References:                                                                 %
-%   [1] Hernandez, B.S. and De la Cruz, R.J.L. (2021). Independent            %
-%          decompositions of chemical reaction networks. Bulletin of          %
-%          Mathematical Biology, 83(76), 1–23. doi:10.1007/s11538-021-00906-3 %
-%   [2] Soranzo, N. and Altafini, C. (2009). ERNEST: a toolbox for chemical   %
-%          chemical reaction network theory. Bioinformatics, 25(21),          %
-%          2853–2854. doi:10.1093/bioinformatics/btp513                       %
+%    [1] Hernandez B, De la Cruz R (2021) Independent decompositions of       %
+%           chemical reaction networks. Bull Math Biol 83(76):1–23.           %
+%           https://doi.org/10.1007/s11538-021-00906-3                        %
+%    [2] Soranzo N, Altafini C (2009) ERNEST: a toolbox for chemical reaction %
+%           network theory. Bioinform 25(21):2853–2854.                       %
+%           https://doi.org/10.1093/bioinformatics/btp513                     %
 %                                                                             %
 % Created: 2 June 2022                                                        %
-% Last Modified: 2 June 2022                                                  %
+% Last Modified: 19 June 2022                                                  %
 %                                                                             %
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
@@ -57,7 +57,7 @@
 function [model, R, G, P] = indep_decomp(model)
     
     %
-    % STEP 0: Add to 'model.species' all species indicated in the reactions
+    % STEP 1: Add to 'model.species' all species indicated in the reactions
     %
     
     % Get all species from reactants
@@ -80,7 +80,7 @@ function [model, R, G, P] = indep_decomp(model)
     
     
     %
-    % STEP 1: Form stoichiometric matrix N (based on [2])
+    % STEP 2: Form stoichiometric matrix N
     %
     
     % Count the number of species
@@ -137,7 +137,7 @@ function [model, R, G, P] = indep_decomp(model)
     
     
     %
-    % STEP 2: Get the transpose of N: Each row now represents the reaction vector a reaction (this point onward is based on [1])
+    % STEP 3: Get the transpose of N: Each row now represents the reaction vector a reaction
     %
     
     R = N';
@@ -145,13 +145,13 @@ function [model, R, G, P] = indep_decomp(model)
     
     
     %
-    % STEP 3: Form a basis for the rowspace of R
+    % STEP 4: Form a basis for the rowspace of R
     %
     
     % Write R in reduced row echelon form: the transpose of R is used so 'basis_reaction_num' will give the pivot rows of R
     %    - 'A' is R in reduced row echelon form
     %    - 'basis_reaction_num' gives the row numbers of R which form a basis for the rowspace of R
-    [A, basis_reaction_num] = rref(R');
+    [~, basis_reaction_num] = rref(R');
     
     % Form the basis
     basis = R(basis_reaction_num, :);
@@ -159,11 +159,11 @@ function [model, R, G, P] = indep_decomp(model)
     
     
     %
-    % STEP 4: Construct the vertex set of undirected graph G
+    % STEP 5: Construct the vertex set of undirected graph G
     %
     
     % Initialize an undirected graph G
-    G = graph;
+    G = graph();
     
     % Add vertices to G: these are the reaction vectors that form a basis for the rowspace of R
     for i = 1:numel(basis_reaction_num)
@@ -175,7 +175,7 @@ function [model, R, G, P] = indep_decomp(model)
     
     
     %
-    % STEP 5: Write the nonbasis reaction vectors as a linear combination of the basis vectors
+    % STEP 6: Write the nonbasis reaction vectors as a linear combination of the basis vectors
     %
     
     % Initialize matrix of linear combinations
@@ -197,7 +197,7 @@ function [model, R, G, P] = indep_decomp(model)
     
     
     %
-    % STEP 6: Construct the edge set of undirected graph G
+    % STEP 7: Construct the edge set of undirected graph G
     %
     
     % Get the reactions that are linear combinations of at least 2 basis reactions
@@ -231,7 +231,7 @@ function [model, R, G, P] = indep_decomp(model)
     
     
     %
-    % STEP 7: Check if G is connected, i.e., has only one connected component
+    % STEP 8: Check if G is connected, i.e., has only one connected component
     %
     
     % Determine to which component each vertex belongs to
@@ -253,7 +253,7 @@ function [model, R, G, P] = indep_decomp(model)
     
     
     %
-    % STEP 8: If G is NOT connected, form the partitions of R
+    % STEP 9: If G is NOT connected, form the partitions of R
     %
     
     % Initialize the list of partitions
@@ -284,7 +284,7 @@ function [model, R, G, P] = indep_decomp(model)
     
     
     %
-    % FINAL STEP: Display the independent decomposition
+    % STEP 10: Display the independent decomposition
     %
     
     % Use 'fprintf' instead of 'disp' to interpret '\n' as 'newline'
