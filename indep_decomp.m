@@ -48,7 +48,7 @@
 %           https://doi.org/10.1093/bioinformatics/btp513                     %
 %                                                                             %
 % Created: 2 June 2022                                                        %
-% Last Modified: 19 June 2022                                                  %
+% Last Modified: 19 June 2022                                                 %
 %                                                                             %
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
