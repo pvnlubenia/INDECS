@@ -87,6 +87,6 @@ For questions, comments, and suggestions, feel free to contact me at pvnlubenia@
 References
 ==========
 
-   [1] Hernandez B, De la Cruz R (2021) Independent decompositions of chemical reaction networks. Bull Math Biol 83(76):1Ð23. https://doi.org/10.1007/s11538-021-00906-3
+   [1] Hernandez B, De la Cruz R (2021) Independent decompositions of chemical reaction networks. Bull Math Biol 83(76):1-23. https://doi.org/10.1007/s11538-021-00906-3
 
-   [2] Soranzo N, Altafini C (2009) ERNEST: a toolbox for chemical reaction network theory. Bioinform 25(21):2853Ð2854. https://doi.org/10.1093/bioinformatics/btp513
+   [2] Soranzo N, Altafini C (2009) ERNEST: a toolbox for chemical reaction network theory. Bioinform 25(21):2853-2854. https://doi.org/10.1093/bioinformatics/btp513
