@@ -25,7 +25,7 @@
 %           https://doi.org/10.1093/bioinformatics/btp513                   %
 %                                                                           %
 % Created: 2 June 2022                                                      %
-% Last Modified: 18 July 2022                                               %
+% Last Modified: 10 August 2022                                             %
 %                                                                           %
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
@@ -267,9 +267,12 @@ function [model, R, G, P] = indepDecomp(model)
     %
     
     % Use 'fprintf' instead of 'disp' to interpret '\n' as 'newline'
-    fprintf(['Independent decomposition of ' model.id '\n\n'])
+    fprintf('Independent Decomposition - %s\n\n', model.id)
     for i = 1:numel(P)
-        fprintf(['P' num2str(i) ': ' sprintf('R%d ', P{i}) '\n\n']);
+        subnetwork = sprintf('R%d, ', P{i});
+        subnetwork(end-1:end) = [ ]; % To clean the trailing comma and space at the end of the list
+        fprintf('N%d: %s \n', i, subnetwork);
     end
+    fprintf('\n')
 
 end
