@@ -54,7 +54,7 @@ To fill out the 'model' structure, write a string for 'model.id': this is just t
 Examples
 ========
 
-7 examples are included in this folder, all based on [1]:
+8 examples are included in this folder, all based on [1] except Example 8 [3]:
 
    - Example 1: Generalized mass action model of anaerobic fermentation pathway of Saccharomyces cerevisiae
 
@@ -70,6 +70,8 @@ Examples
 
    - Example 7: A reaction network governed by mass action kinetics
 
+   - Example 8: Figure
+
 
 
 ===================
@@ -79,7 +81,7 @@ Contact Information
 For questions, comments, and suggestions, feel free to contact me at pvnlubenia@yahoo.co.uk.
 
 
-- Patrick Lubenia (19 June 2022)
+- Patrick Lubenia (26 August 2022)
 
 
 
@@ -90,3 +92,5 @@ References
    [1] Hernandez B, De la Cruz R (2021) Independent decompositions of chemical reaction networks. Bull Math Biol 83(76):1-23. https://doi.org/10.1007/s11538-021-00906-3
 
    [2] Soranzo N, Altafini C (2009) ERNEST: a toolbox for chemical reaction network theory. Bioinform 25(21):2853-2854. https://doi.org/10.1093/bioinformatics/btp513
+
+   [3] Yu P, Craciun G (2018) Mathematical analysis of chemical reaction systems. Isr J Chem 58:1-10. https://doi.org/10.1002/ijch.201800003

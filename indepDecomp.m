@@ -25,7 +25,7 @@
 %           https://doi.org/10.1093/bioinformatics/btp513                   %
 %                                                                           %
 % Created: 2 June 2022                                                      %
-% Last Modified: 10 August 2022                                             %
+% Last Modified: 26 August 2022                                             %
 %                                                                           %
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
@@ -171,7 +171,7 @@ function [model, R, G, P] = indepDecomp(model)
     end
     
     % Round off values to nearest whole number to avoid round off errors
-    linear_combo = round(linear_combo);
+    linear_combination = round(linear_combo);
     
     
     
@@ -181,14 +181,14 @@ function [model, R, G, P] = indepDecomp(model)
     
     % Get the reactions that are linear combinations of at least 2 basis reactions
     % These are the reactions where we'll get the edges
-    get_edges = find(sum(abs(linear_combo), 2) > 1);
+    get_edges = find(sum(abs(linear_combination), 2) > 1);
         
     % Initialize an array for sets of vertices that will form the edges
     vertex_set = { };
      
     % Identify which vertices form edges in each reaction: get those with non-zero coefficients in the linear combinations
     for i = 1:numel(get_edges)
-        vertex_set{i} = find(linear_combo(get_edges(i), :) ~= 0);
+        vertex_set{i} = find(linear_combination(get_edges(i), :) ~= 0);
     end
     
     % Initialize the edge set
@@ -247,11 +247,11 @@ function [model, R, G, P] = indepDecomp(model)
     for i = 1:numel(P)
         for j = 1:numel(P{i})
             
-            % Get the column number representing the basis vectors in 'linear_combo'
+            % Get the column number representing the basis vectors in 'linear_combination'
             col = find(basis_reaction_num == P{i}(j));
             
             % Check which reactions used a particular basis vector and assign them to their respective partition
-            P{i} = [P{i} find(linear_combo(:, col) ~= 0)'];
+            P{i} = [P{i} find(linear_combination(:, col) ~= 0)'];
         end
     end
     
@@ -259,11 +259,64 @@ function [model, R, G, P] = indepDecomp(model)
     for i = 1:numel(P)
         P{i} = unique(P{i});
     end
+
+
+
+    %
+    % Step 10: Check if all the reactions are in the partitions
+    %    - If not all reactions are partitions, usually it's because of the computation of linear combinations
+    %
+
+    % If some reactions are missing, then redo the end of Step 6 up to Step 9
+    if length(cell2mat(P)) ~= size(R, 1)
+
+        % Step 6 end: Do not round off the coefficients of the linear combinations
+        linear_combination = linear_combo;
+
+        % Step 7
+        get_edges = find(sum(abs(linear_combination), 2) > 1);
+        vertex_set = { };
+        for i = 1:numel(get_edges)
+            vertex_set{i} = find(linear_combination(get_edges(i), :) ~= 0);
+        end
+        edges = [ ];
+        for i = 1:numel(vertex_set)
+            edges = [edges; nchoosek(vertex_set{i}, 2)];
+        end
+        edges = unique(edges, 'rows');
+        for i = 1:size(edges, 1)
+            G = addedge(G, strcat('R', num2str(basis_reaction_num(edges(i, 1)))), strcat('R', num2str(basis_reaction_num(edges(i, 2)))));
+        end
+        
+        % Step 8
+        component_numbers = conncomp(G);
+        num_components = max(component_numbers);
+        if num_components == 1
+            P = [ ];
+            disp([model.id ' has no nontrivial independent decomposition.']);
+            return
+        end
+        
+        % Step 9
+        P = cell(1, num_components);
+        for i = 1:numel(component_numbers)
+            P{component_numbers(i)}(end+1) = basis_reaction_num(i);
+        end
+        for i = 1:numel(P)
+            for j = 1:numel(P{i})
+                col = find(basis_reaction_num == P{i}(j));
+                P{i} = [P{i} find(linear_combination(:, col) ~= 0)'];
+            end
+        end
+        for i = 1:numel(P)
+            P{i} = unique(P{i});
+        end
+    end
     
     
     
     %
-    % Step 10: Display the independent decomposition
+    % Step 11: Display the independent decomposition
     %
     
     % Use 'fprintf' instead of 'disp' to interpret '\n' as 'newline'
