@@ -70,7 +70,7 @@ Examples
 
    - Example 7: A reaction network governed by mass action kinetics
 
-   - Example 8: Figure
+   - Example 8: Figure 7
 
 
 
